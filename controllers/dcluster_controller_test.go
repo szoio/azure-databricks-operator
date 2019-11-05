@@ -28,9 +28,9 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-var _ = Describe("DbfsBlock Controller", func() {
+var _ = FDescribe("DbfsBlock Controller", func() {
 
-	const timeout = time.Second * 30
+	const timeout = time.Second * 300
 	const interval = time.Second * 1
 
 	BeforeEach(func() {
@@ -59,12 +59,9 @@ var _ = Describe("DbfsBlock Controller", func() {
 					Namespace: key.Namespace,
 				},
 				Spec: &dbmodels.NewCluster{
-					Autoscale: &dbmodels.AutoScale{
-						MinWorkers: 2,
-						MaxWorkers: 5,
-					},
-					NodeTypeID:   "Standard_D3_v2",
+					NumWorkers:   1,
 					SparkVersion: "5.3.x-scala2.11",
+					NodeTypeID:   "Standard_DS3_v2",
 				},
 			}
 

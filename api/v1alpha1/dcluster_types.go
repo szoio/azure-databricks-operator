@@ -22,6 +22,7 @@ import (
 )
 
 type DclusterStatus struct {
+	State string
 	ClusterInfo *DclusterInfo `json:"cluster_info,omitempty"`
 }
 

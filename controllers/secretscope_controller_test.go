@@ -55,6 +55,8 @@ var _ = Describe("SecretScope Controller", func() {
 	// test Kubernetes API server, which isn't the goal here.
 	Context("Secret Scope with ACLs", func() {
 		It("Should handle scope and ACLs correctly", func() {
+			Skip("disable this test")
+
 			spec := databricksv1alpha1.SecretScopeSpec{
 				InitialManagePrincipal: "users",
 				SecretScopeSecrets:     make([]databricksv1alpha1.SecretScopeSecret, 0),
@@ -124,6 +126,7 @@ var _ = Describe("SecretScope Controller", func() {
 
 	Context("Secret Scope with secrets", func() {
 		It("Should handle scope and secrets correctly", func() {
+			Skip("disable this test")
 
 			// setup k8s secret
 			k8SecretKey := types.NamespacedName{

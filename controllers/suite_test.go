@@ -17,6 +17,8 @@ limitations under the License.
 package controllers
 
 import (
+	"github.com/microsoft/azure-databricks-operator/controllers_new/dcluster"
+	"github.com/microsoft/azure-databricks-operator/pkg/reconciler"
 	"os"
 	"path/filepath"
 	"testing"
@@ -125,12 +127,23 @@ var _ = BeforeSuite(func(done Done) {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	err = (&DclusterReconciler{
-		Client:    k8sManager.GetClient(),
-		Log:       ctrl.Log.WithName("controllers").WithName("Run"),
-		Recorder:  k8sManager.GetEventRecorderFor("dcluster-controller"),
-		APIClient: apiClient,
-	}).SetupWithManager(k8sManager)
+	//err = (&DclusterReconciler{
+	//	Client:    k8sManager.GetClient(),
+	//	Log:       ctrl.Log.WithName("controllers").WithName("Run"),
+	//	Recorder:  k8sManager.GetEventRecorderFor("dcluster-controller"),
+	//	APIClient: apiClient,
+	//}).SetupWithManager(k8sManager)
+
+	controllerParams := reconciler.ReconcileParameters{
+		RequeueAfter: 10,
+	}
+	err = (&dcluster.ControllerFactory{
+		ClientCreator:        dcluster.CreateResourceManagerClient,
+		APIClient: 			 apiClient,
+		Scheme:               scheme.Scheme,
+	}).SetupWithManager(k8sManager, controllerParams)
+	Expect(err).ToNot(HaveOccurred())
+
 	Expect(err).ToNot(HaveOccurred())
 
 	err = (&DbfsBlockReconciler{
